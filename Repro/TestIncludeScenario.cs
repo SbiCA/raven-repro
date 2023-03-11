@@ -43,6 +43,33 @@ public class TestIncludeScenario :RavenTestDriver
         @event.Should().NotBeNull();
         numberOfMembers.Should().Be(2);
     }
+    
+    [Fact]
+    public void ShouldTryWithProjection()
+    {
+        WaitForUserToContinueTheTest(_documentStore);
+
+        using var session = _documentStore.OpenSession();
+        session.Advanced.MaxNumberOfRequestsPerSession = 1;
+        var customerResult = session.Advanced.RawQuery<CustomResult>("""
+            declare function includeRelatedCounters(d) {
+                include(d.EventId);
+                var numberOfMembers = counter(d.EventId, "Members");
+                return { UserId: d.UserId, Members: numberOfMembers}
+            }
+
+            from index "Membership/ByEventAndUserId"  as d
+            where UserId = "User/Ayende"
+            select includeRelatedCounters(d)
+            include timings() 
+        """).FirstOrDefault();
+        var @event = session.Load<Event>("Event/Raven-Rocks");
+
+
+        customerResult.Should().NotBeNull();
+        @event.Should().NotBeNull();
+        customerResult.Members.Should().Be(2);
+    }
 }
 
 public class Membership_ByEventAndUserId : AbstractIndexCreationTask<Membership>
@@ -63,3 +90,5 @@ public record Membership(string Id, string UserId, string EventId);
 public record Event(string Id, string Name);
 
 public record User(string Id, string Name);
+
+record CustomResult(string Id, string UserId, int Members);
