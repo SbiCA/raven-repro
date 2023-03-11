@@ -1,0 +1,59 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+!LIBCURL.DLL
+!MediaInfo.dll
+!MediaInfo_InfoTip.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Folders
+bin
+obj
+.vs
+.vscode
+/SamSaidYes.FrontEnd/node_modules
+
+
+SamSaidYes\.PostsService/SamSaidYes\.PostsService\.xml
+/.idea/*
+
+/Templates/Email/configuration/node_modules/*
+
+SamSaidYesApi\.sln\.DotSettings\.user
+**/node_modules/*
+
+SamSaidYes\.Admin/ClientApp/node_modules/
+SamSaidYes\.Admin/ClientApp/build/
+*.user
+
+.DS_Store
+
+
