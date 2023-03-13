@@ -33,6 +33,7 @@ public class TestIncludeScenario :RavenTestDriver
         var memberships = session.Query<Membership_ByEventAndUserId.Result,Membership_ByEventAndUserId>()
             .Where(m => m.UserId == "User/Ayende")
             .OfType<Membership>()
+            .Include(i => i.EventId)
             .Include(i => i.IncludeCounter(m => m.EventId,"Members" ))
             .ToList();
 
