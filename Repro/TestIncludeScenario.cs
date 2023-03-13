@@ -32,7 +32,8 @@ public class TestIncludeScenario :RavenTestDriver
         session.Advanced.MaxNumberOfRequestsPerSession = 1;
         var memberships = session.Query<Membership_ByEventAndUserId.Result,Membership_ByEventAndUserId>()
             .Where(m => m.UserId == "User/Ayende")
-            .Include(m => m.EventId)
+            .OfType<Membership>()
+            .Include(i => i.IncludeCounter(m => m.EventId,"Members" ))
             .ToList();
 
         var @event = session.Load<Event>("Event/Raven-Rocks");
